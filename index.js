@@ -1,5 +1,5 @@
 ﻿/* Config */
-const twitchTvHandle = "maitestbot";
+const twitchTvHandle = "borksquadmerchbot";
 const PAUSE_DURATION = 30 * 1000; // 30 seconds
 const DISPLAY_DURATION = 10 * 1000; // 10 seconds
 
@@ -33,7 +33,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 };
 
 ComfyJS.onChat = (user, message, flags, self, extra) => {
-  if (user == 'maitestbot') {
+  if (user == twitchTvHandle) {
     //let productImgSrc = '';
     //let productName = message.split('bought a ').pop();
     //let customerName = message.split(' bought', 1)[0]
@@ -71,7 +71,7 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
 function overlayAlert(productImgSrc, productName, customerName, audio) {
   queue.add(async () => {
     //Chrome blocks this
-    //audio.play();
+    audio.play();
     let overlayMessage = customerName + ' bought a ' + productName + '!';
     overlayMessage = fixArticles(overlayMessage);
 
