@@ -33,6 +33,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 };
 
 ComfyJS.onChat = (user, message, flags, self, extra) => {
+  console.log(twitchTvHandle, user);
   if (user == twitchTvHandle) {
     //let productImgSrc = '';
     //let productName = message.split('bought a ').pop();
