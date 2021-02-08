@@ -1,7 +1,7 @@
 ﻿/* Config */
 const twitchTvHandle = "borksquadalertbot";
 const PAUSE_DURATION = 30 * 1000; // 30 seconds
-const DISPLAY_DURATION = 10 * 1000; // 10 seconds
+const DISPLAY_DURATION = 15 * 1000; // 15 seconds
 
 /* DOM */
 const container = document.querySelector(".alerts");
@@ -11,6 +11,7 @@ const queue = new Queue();
 /* Sound Effects */
 const pewAudio = new Audio("horn.wav");
 const magicChime = new Audio("Magic_Chime.mp3");
+const cityEscape = new Audio("Merch_Alert.mp3");
 
 /* GIFs */
 const beyGif = "https://media.giphy.com/media/VxkNDa92gcsRq/giphy.gif";
@@ -37,7 +38,8 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     let arrOfValues = message.split('|');
     let unknown = {
       customer: {
-        name: 'A most excellent person'
+        name: 'A most excellent person',
+        note: ''
       },
       product: {
         name: 'mysterious something',
@@ -47,7 +49,8 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     };
     let overlayInfo = {
       customer: {
-        name: ''
+        name: '',
+        note: ''
       },
       product: {
         name: '',
@@ -56,17 +59,18 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
       }
     };
 
-    if (arrOfValues.length == 4) {
+    if (arrOfValues.length == 5) {
       overlayInfo.customer.name = arrOfValues[0] === '' ? unknown.customer.name : arrOfValues[0];
       overlayInfo.product.name = arrOfValues[1] === '' ? unknown.product.name : arrOfValues[1];
       overlayInfo.product.quantity = arrOfValues[2] === '' ? unknown.product.quantity : arrOfValues[2];
       overlayInfo.product.imgSrc = arrOfValues[3] === '' ? unknown.product.imgSrc : arrOfValues[3];
+      overlayInfo.customer.note = arrOfValues[4] === '' ? unknown.customer.note : arrOfValues[4];
     }
     else {
       overlayInfo = unknown;
     }
     
-    new overlayAlert(overlayInfo, magicChime);
+    new overlayAlert(overlayInfo, cityEscape);
   }
 };
 
@@ -74,15 +78,20 @@ function overlayAlert(overlayInfo, audio) {
   queue.add(async () => {
     audio.play(); //Chrome blocks this, but it should play fine in OBS
     let overlayMessage =
-      overlayInfo.customer.name + ' bought ' + (overlayInfo.product.name.slice(-1).toLowerCase() == 's' ? '' : ' a ') +
-      overlayInfo.product.name + (overlayInfo.product.quantity > 1 ? (' X' + overlayInfo.product.quantity + '!') : '!');
+      overlayInfo.customer.name +
+      ' bought ' +
+      (overlayInfo.product.name.slice(-1).toLowerCase() == 's' ? '' : 'a ') +
+      overlayInfo.product.name +
+      (overlayInfo.product.quantity > 1 ? (' X' + overlayInfo.product.quantity + '!') : '!');
 
     overlayMessage = fixArticles(overlayMessage);
 
     container.innerHTML = `
       <h1 class="text-shadows">${overlayMessage}</h1>
       <img src="${overlayInfo.product.imgSrc}" />
+      <h2 class="text-shadows">${overlayInfo.customer.note}</h2>
     `;
+
 
     container.style.opacity = 1;
 
