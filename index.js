@@ -46,7 +46,7 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
         quantity: 0,
         imgSrc: beyGif
       }, 
-      audio: 'noAudio'
+      audio: 'yesAudio'
     };
     let overlayInfo = {
       customer: {
@@ -58,7 +58,7 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
         quantity: 0,
         imgSrc: ''
       },
-      audio: 'noAudio'
+      audio: ''
     };
 
     if (arrOfValues.length == 6) {
