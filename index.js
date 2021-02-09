@@ -45,7 +45,8 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
         name: 'mysterious something',
         quantity: 0,
         imgSrc: beyGif
-      }
+      }, 
+      audio: 'noAudio'
     };
     let overlayInfo = {
       customer: {
@@ -56,15 +57,17 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
         name: '',
         quantity: 0,
         imgSrc: ''
-      }
+      },
+      audio: 'noAudio'
     };
 
-    if (arrOfValues.length == 5) {
+    if (arrOfValues.length == 6) {
       overlayInfo.customer.name = arrOfValues[0] === '' ? unknown.customer.name : arrOfValues[0];
       overlayInfo.product.name = arrOfValues[1] === '' ? unknown.product.name : arrOfValues[1];
       overlayInfo.product.quantity = arrOfValues[2] === '' ? unknown.product.quantity : arrOfValues[2];
       overlayInfo.product.imgSrc = arrOfValues[3] === '' ? unknown.product.imgSrc : arrOfValues[3];
       overlayInfo.customer.note = arrOfValues[4] === '' ? unknown.customer.note : arrOfValues[4];
+      overlayInfo.audio = arrOfValues[5] === '' ? unknown.audio : arrOfValues[5];
     }
     else {
       overlayInfo = unknown;
@@ -76,7 +79,7 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
 
 function overlayAlert(overlayInfo, audio) {
   queue.add(async () => {
-    if (overlayInfo.customer.note) {
+    if (overlayInfo.audio == 'yesAudio') {
       audio.play(); //Chrome blocks this, but it should play fine in OBS
     }
     let overlayMessage =
