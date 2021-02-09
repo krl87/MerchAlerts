@@ -76,7 +76,9 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
 
 function overlayAlert(overlayInfo, audio) {
   queue.add(async () => {
-    audio.play(); //Chrome blocks this, but it should play fine in OBS
+    if (overlayInfo.customer.note) {
+      audio.play(); //Chrome blocks this, but it should play fine in OBS
+    }
     let overlayMessage =
       overlayInfo.customer.name +
       ' bought ' +
